@@ -9,6 +9,8 @@ import UIKit
 
 class ContentViewController: UIViewController {
 
+    var href: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
