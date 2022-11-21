@@ -18,9 +18,10 @@ class SecureViewController: TableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "secure", for: indexPath) as! NewsTableViewCell
-        cell.newsTitle?.text = listData[indexPath.row].title
-        cell.newsDate?.text = listData[indexPath.row].date
-        cell.href = listData[indexPath.row].href
+        let listItem = listData[indexPath.row]
+        cell.newsTitle?.text = listItem.title
+        cell.newsDate?.text = listItem.date
+        cell.href = listItem.href
         return cell
     }
 
