@@ -12,9 +12,11 @@
 		34EBE011271F08E2005CC9EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34EBE00F271F08E2005CC9EB /* Main.storyboard */; };
 		34EBE013271F08E3005CC9EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34EBE012271F08E3005CC9EB /* Assets.xcassets */; };
 		34EBE01E271F0910005CC9EB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34EBE01D271F0910005CC9EB /* LaunchScreen.storyboard */; };
+		CC63B768292D10930037B148 /* AboutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC63B767292D10930037B148 /* AboutTableViewController.swift */; };
+		CC63B76A292D117B0037B148 /* AboutCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC63B769292D117B0037B148 /* AboutCellData.swift */; };
+		CC63B76C292D151A0037B148 /* AboutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC63B76B292D151A0037B148 /* AboutTableViewCell.swift */; };
 		CCC7BB07292B802C00DFE4FB /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC7BB06292B802C00DFE4FB /* NewsViewController.swift */; };
 		CCC7BB09292B819E00DFE4FB /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC7BB08292B819E00DFE4FB /* ContentViewController.swift */; };
-		CCC7BB0B292B81E900DFE4FB /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC7BB0A292B81E900DFE4FB /* AboutViewController.swift */; };
 		CCC7BB0D292B828E00DFE4FB /* AnnouncementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC7BB0C292B828E00DFE4FB /* AnnouncementViewController.swift */; };
 		CCC7BB0F292B82D000DFE4FB /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC7BB0E292B82D000DFE4FB /* InformationViewController.swift */; };
 		CCC7BB11292B82EF00DFE4FB /* SecureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC7BB10292B82EF00DFE4FB /* SecureViewController.swift */; };
@@ -31,9 +33,11 @@
 		34EBE012271F08E3005CC9EB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		34EBE017271F08E3005CC9EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		34EBE01D271F0910005CC9EB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CC63B767292D10930037B148 /* AboutTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTableViewController.swift; sourceTree = "<group>"; };
+		CC63B769292D117B0037B148 /* AboutCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCellData.swift; sourceTree = "<group>"; };
+		CC63B76B292D151A0037B148 /* AboutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTableViewCell.swift; sourceTree = "<group>"; };
 		CCC7BB06292B802C00DFE4FB /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		CCC7BB08292B819E00DFE4FB /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
-		CCC7BB0A292B81E900DFE4FB /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		CCC7BB0C292B828E00DFE4FB /* AnnouncementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementViewController.swift; sourceTree = "<group>"; };
 		CCC7BB0E292B82D000DFE4FB /* InformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
 		CCC7BB10292B82EF00DFE4FB /* SecureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureViewController.swift; sourceTree = "<group>"; };
@@ -80,13 +84,15 @@
 				34EBE01D271F0910005CC9EB /* LaunchScreen.storyboard */,
 				CCC7BB06292B802C00DFE4FB /* NewsViewController.swift */,
 				CCC7BB08292B819E00DFE4FB /* ContentViewController.swift */,
-				CCC7BB0A292B81E900DFE4FB /* AboutViewController.swift */,
 				CCC7BB0C292B828E00DFE4FB /* AnnouncementViewController.swift */,
 				CCC7BB0E292B82D000DFE4FB /* InformationViewController.swift */,
 				CCC7BB10292B82EF00DFE4FB /* SecureViewController.swift */,
 				CCC7BB12292BA36F00DFE4FB /* NewsTableViewCell.swift */,
 				CCC7BB14292BB61100DFE4FB /* CellData.swift */,
 				CCC7BB16292BCC7900DFE4FB /* TableViewController.swift */,
+				CC63B767292D10930037B148 /* AboutTableViewController.swift */,
+				CC63B769292D117B0037B148 /* AboutCellData.swift */,
+				CC63B76B292D151A0037B148 /* AboutTableViewCell.swift */,
 			);
 			path = ITSC;
 			sourceTree = "<group>";
@@ -162,14 +168,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCC7BB0B292B81E900DFE4FB /* AboutViewController.swift in Sources */,
 				CCC7BB09292B819E00DFE4FB /* ContentViewController.swift in Sources */,
 				CCC7BB0D292B828E00DFE4FB /* AnnouncementViewController.swift in Sources */,
 				CCC7BB15292BB61100DFE4FB /* CellData.swift in Sources */,
+				CC63B768292D10930037B148 /* AboutTableViewController.swift in Sources */,
 				CCC7BB0F292B82D000DFE4FB /* InformationViewController.swift in Sources */,
+				CC63B76A292D117B0037B148 /* AboutCellData.swift in Sources */,
 				CCC7BB11292B82EF00DFE4FB /* SecureViewController.swift in Sources */,
 				CCC7BB17292BCC7900DFE4FB /* TableViewController.swift in Sources */,
 				34EBE00A271F08E2005CC9EB /* AppDelegate.swift in Sources */,
+				CC63B76C292D151A0037B148 /* AboutTableViewCell.swift in Sources */,
 				34EBE00C271F08E2005CC9EB /* SceneDelegate.swift in Sources */,
 				CCC7BB07292B802C00DFE4FB /* NewsViewController.swift in Sources */,
 				CCC7BB13292BA36F00DFE4FB /* NewsTableViewCell.swift in Sources */,
