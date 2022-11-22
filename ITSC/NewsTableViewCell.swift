@@ -16,6 +16,16 @@ class NewsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        newsTitle.translatesAutoresizingMaskIntoConstraints = false
+        newsTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: CGFloat(16)).isActive = true
+        newsTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: CGFloat(16)).isActive = true
+        newsTitle.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: CGFloat(-16)).isActive = true
+        newsTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: CGFloat(0.6)).isActive = true
+        newsDate.translatesAutoresizingMaskIntoConstraints = false
+        newsDate.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: CGFloat(-16)).isActive = true
+        newsDate.topAnchor.constraint(equalTo: contentView.topAnchor, constant: CGFloat(16)).isActive = true
+        newsDate.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: CGFloat(-16)).isActive = true
+        newsDate.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: CGFloat(0.3)).isActive = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
