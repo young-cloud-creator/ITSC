@@ -92,7 +92,7 @@ class TableViewController: UITableViewController {
     }
     
     func loadDataFromURL(baseURL: String) {
-        if let url = URL(string: baseURL+"list.htm") {
+        if let url = URL(string: baseURL+"list.psp") {
             let task = URLSession.shared.dataTask(with: url, completionHandler: {
                 data, response, error in
                 if let error = error {
@@ -117,7 +117,7 @@ class TableViewController: UITableViewController {
         }
         
         for pageIdx in 2..<50 {
-            if let url = URL(string: baseURL+"list"+String(pageIdx)+".htm") {
+            if let url = URL(string: baseURL+"list"+String(pageIdx)+".psp") {
                 let task = URLSession.shared.dataTask(with: url, completionHandler: {
                     data, response, error in
                     if let error = error {
@@ -164,21 +164,15 @@ class TableViewController: UITableViewController {
     
     func loadList(li: String) {
         do {
-            var data: [CellData] = [CellData]()
             let itemReg = try NSRegularExpression(pattern: "<span class=\"news_title\">(.*?)</span><span class=\"news_meta\">(.*?)</span>")
             let matches = itemReg.matches(in: li, range: NSRange(location: 0, length: li.count))
             
             for item in matches {
                 let i = (li as NSString).substring(with: item.range)
-                data.append(try getItem(item: i))
+                self.listData.append(try getItem(item: i))
             }
             
-            if data.count>0 {
-                let date = date2int(date: data[0].date)
-                
-                self.listData.insert(contentsOf: data, at: self.listData.lastIndex(where: {(c: CellData) -> Bool in
-                    return date2int(date: c.date)>date}) ?? 0)
-            }
+            self.listData = self.listData.sorted(by: {(c1: CellData, c2: CellData) -> Bool in self.date2int(date: c1.date)>self.date2int(date: c2.date)})
         }
         catch {
             print(error.localizedDescription)
@@ -187,15 +181,31 @@ class TableViewController: UITableViewController {
     }
     
     func getItem(item: String) throws -> CellData {
+        
+        let htmlQuoteReg = try NSRegularExpression(pattern: "&quot;")
+        let htmlAndReg = try NSRegularExpression(pattern: "&amp;")
+        let htmlGreaterReg = try NSRegularExpression(pattern: "&gt;")
+        let htmlLessReg = try NSRegularExpression(pattern: "&lt;")
+        let htmlSpaceReg = try NSRegularExpression(pattern: "&nbsp;")
+        let htmlAposReg = try NSRegularExpression(pattern: "&apos;")
+        
         let captureReg = try NSRegularExpression(pattern: "<span class=\"news_title\"><a href='(.*?)' target='_blank' title='(.*?)'>(.*?)</a></span><span class=\"news_meta\">(.*?)</span>")
         let matches = captureReg.matches(in: item, range: NSRange(location: 0, length: item.count))
         let i = matches[0]
         let hrefRange = i.range(at: 1)
         let href = (item as NSString).substring(with: hrefRange)
         let titleRange = i.range(at: 2)
-        let title = (item as NSString).substring(with: titleRange)
+        var title = (item as NSString).substring(with: titleRange)
         let dateRange = i.range(at: 4)
         let date = (item as NSString).substring(with: dateRange)
+        
+        title = htmlQuoteReg.stringByReplacingMatches(in: title, range: NSRange(location: 0, length: title.count), withTemplate: "\"")
+        title = htmlAndReg.stringByReplacingMatches(in: title, range: NSRange(location: 0, length: title.count), withTemplate: "&")
+        title = htmlGreaterReg.stringByReplacingMatches(in: title, range: NSRange(location: 0, length: title.count), withTemplate: ">")
+        title = htmlLessReg.stringByReplacingMatches(in: title, range: NSRange(location: 0, length: title.count), withTemplate: "<")
+        title = htmlSpaceReg.stringByReplacingMatches(in: title, range: NSRange(location: 0, length: title.count), withTemplate: " ")
+        title = htmlAposReg.stringByReplacingMatches(in: title, range: NSRange(location: 0, length: title.count), withTemplate: "\'")
+        
         return CellData(title: title, date: date, href: href)
         
     }
