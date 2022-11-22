@@ -164,12 +164,20 @@ class TableViewController: UITableViewController {
     
     func loadList(li: String) {
         do {
+            var data: [CellData] = [CellData]()
             let itemReg = try NSRegularExpression(pattern: "<span class=\"news_title\">(.*?)</span><span class=\"news_meta\">(.*?)</span>")
             let matches = itemReg.matches(in: li, range: NSRange(location: 0, length: li.count))
             
             for item in matches {
                 let i = (li as NSString).substring(with: item.range)
-                try loadItem(item: i)
+                data.append(try getItem(item: i))
+            }
+            
+            if data.count>0 {
+                let date = date2int(date: data[0].date)
+                
+                self.listData.insert(contentsOf: data, at: self.listData.lastIndex(where: {(c: CellData) -> Bool in
+                    return date2int(date: c.date)>date}) ?? 0)
             }
         }
         catch {
@@ -178,18 +186,18 @@ class TableViewController: UITableViewController {
         }
     }
     
-    func loadItem(item: String) throws {
+    func getItem(item: String) throws -> CellData {
         let captureReg = try NSRegularExpression(pattern: "<span class=\"news_title\"><a href='(.*?)' target='_blank' title='(.*?)'>(.*?)</a></span><span class=\"news_meta\">(.*?)</span>")
         let matches = captureReg.matches(in: item, range: NSRange(location: 0, length: item.count))
-        for i in matches {
-            let hrefRange = i.range(at: 1)
-            let href = (item as NSString).substring(with: hrefRange)
-            let titleRange = i.range(at: 2)
-            let title = (item as NSString).substring(with: titleRange)
-            let dateRange = i.range(at: 4)
-            let date = (item as NSString).substring(with: dateRange)
-            self.listData.append(CellData(title: title, date: date, href: href))
-        }
+        let i = matches[0]
+        let hrefRange = i.range(at: 1)
+        let href = (item as NSString).substring(with: hrefRange)
+        let titleRange = i.range(at: 2)
+        let title = (item as NSString).substring(with: titleRange)
+        let dateRange = i.range(at: 4)
+        let date = (item as NSString).substring(with: dateRange)
+        return CellData(title: title, date: date, href: href)
+        
     }
     
     func date2int(date: String) -> Int {
