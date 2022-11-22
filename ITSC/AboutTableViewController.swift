@@ -136,10 +136,6 @@ class AboutTableViewController: UITableViewController {
     
     func loadList(list: String) throws {
         let htmlQuoteReg = try NSRegularExpression(pattern: "&quot;")
-        let htmlAndReg = try NSRegularExpression(pattern: "&amp;")
-        let htmlGreaterReg = try NSRegularExpression(pattern: "&gt;")
-        let htmlLessReg = try NSRegularExpression(pattern: "&lt;")
-        let htmlSpaceReg = try NSRegularExpression(pattern: "&nbsp;")
         let htmlAposReg = try NSRegularExpression(pattern: "&apos;")
         let itemReg = try NSRegularExpression(pattern: "<div class=\"news_box\"><div class=\"news_title\"><(.*?)>(.*?)<(.*?)></div><div class=\"news_fbt\">(.*?)</div><div class=\"news_text\">(.*?)</div></div>")
         let matches = itemReg.matches(in: list, range: NSRange(location: 0, length: list.count))
