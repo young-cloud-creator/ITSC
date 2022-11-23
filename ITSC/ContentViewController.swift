@@ -91,20 +91,22 @@ class ContentViewController: UIViewController {
         let htmlLessReg = try NSRegularExpression(pattern: "&lt;")
         let htmlSpaceReg = try NSRegularExpression(pattern: "&nbsp;")
         let htmlAposReg = try NSRegularExpression(pattern: "&apos;")
+        let htmlBrReg = try NSRegularExpression(pattern: "<br />")
         string = htmlQuoteReg.stringByReplacingMatches(in: string, range: NSRange(location: 0, length: string.count), withTemplate: "\"")
         string = htmlAndReg.stringByReplacingMatches(in: string, range: NSRange(location: 0, length: string.count), withTemplate: "&")
         string = htmlGreaterReg.stringByReplacingMatches(in: string, range: NSRange(location: 0, length: string.count), withTemplate: ">")
         string = htmlLessReg.stringByReplacingMatches(in: string, range: NSRange(location: 0, length: string.count), withTemplate: "<")
         string = htmlSpaceReg.stringByReplacingMatches(in: string, range: NSRange(location: 0, length: string.count), withTemplate: " ")
         string = htmlAposReg.stringByReplacingMatches(in: string, range: NSRange(location: 0, length: string.count), withTemplate: "\'")
+        string = htmlBrReg.stringByReplacingMatches(in: string, range: NSRange(location: 0, length: string.count), withTemplate: "\n")
     }
     
     func loadContent(content: String) throws {
-        let paragraphReg = try NSRegularExpression(pattern: "<p(.*?)>(.*?)</p>")
+        let paragraphReg = try NSRegularExpression(pattern: "<((p>)|(section>)|(p (.*?)>)|(section (.*?)>))(.*?)</((p)|(section))>")
         let matches = paragraphReg.matches(in: content, range: NSRange(location: 0, length: content.count))
         let mutableString = NSMutableAttributedString()
         for p in matches {
-            let paraRange = p.range(at: 2)
+            let paraRange = p.range(at: 8)
             mutableString.insert(try loadPara(paragraph: (content as NSString).substring(with: paraRange)), at: mutableString.length)
             mutableString.insert(NSAttributedString(string: "\n\n"), at: mutableString.length)
         }
@@ -112,26 +114,36 @@ class ContentViewController: UIViewController {
         self.contentText.font = UIFont(name: "System Font Regular", size: 18.0)
     }
     
-    func loadPara(paragraph para: String) throws -> NSMutableAttributedString {
-        let imgReg = try NSRegularExpression(pattern: "<img (.*?)src=[\"\'](.*?)[\"\']")
+    func loadPara(paragraph par: String) throws -> NSMutableAttributedString {
+        var para = par
+        try processHtmlChar(string: &para)
+        let imgReg = try NSRegularExpression(pattern: "<img(.*?) src=[\"\'](.*?)[\"\']")
         let matches = imgReg.matches(in: para, range: NSRange(location: 0, length: para.count))
         let mutableString = NSMutableAttributedString()
         if matches.isEmpty {
             let tagReg = try NSRegularExpression(pattern: "<(.*?)>")
-            var noTag = tagReg.stringByReplacingMatches(in: para, range: NSRange(location: 0, length: para.count), withTemplate: "")
-            try processHtmlChar(string: &noTag)
+            let noTag = tagReg.stringByReplacingMatches(in: para, range: NSRange(location: 0, length: para.count), withTemplate: "")
             mutableString.insert(NSAttributedString(string: noTag), at: mutableString.length)
         }
         else {
             for img in matches {
                 let imgSrcRange = img.range(at: 2)
-                let imgSrc = "https:/itsc.nju.edu.cn"+(para as NSString).substring(with: imgSrcRange)
-                let data = try Data(contentsOf: URL(string: imgSrc)!)
-                let tmpImg = UIImage(data: data)
-                let img = UIImage(data: data, scale: 1.03*(Double((tmpImg?.size.width)!)/Double((self.contentText?.frame.width)!)))
-                let attachment = NSTextAttachment(image: img!)
-                let string = NSAttributedString(attachment: attachment)
-                mutableString.insert(string, at: mutableString.length)
+                var imgSrc = (para as NSString).substring(with: imgSrcRange)
+                if !imgSrc.contains("https://") {
+                    imgSrc = "https://itsc.nju.edu.cn"+imgSrc
+                }
+                do {
+                    let data = try Data(contentsOf: URL(string: imgSrc)!)
+                    let tmpImg = UIImage(data: data)
+                    let img = UIImage(data: data, scale: 1.03*(Double((tmpImg?.size.width)!)/Double((self.contentText?.frame.width)!)))
+                    let attachment = NSTextAttachment(image: img!)
+                    let string = NSAttributedString(attachment: attachment)
+                    mutableString.insert(string, at: mutableString.length)
+                }
+                catch {
+                    print(error.localizedDescription)
+                    continue
+                }
             }
         }
         return mutableString
