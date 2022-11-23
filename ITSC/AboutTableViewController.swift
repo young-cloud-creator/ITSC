@@ -39,9 +39,9 @@ class AboutTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "about", for: indexPath) as! AboutTableViewCell
 
         // Configure the cell...
-        cell.title?.text = aboutInfo[indexPath.row].title
-        cell.content?.text = aboutInfo[indexPath.row].content
-        cell.desc?.text = aboutInfo[indexPath.row].desc
+        cell.title.text = aboutInfo[indexPath.row].title
+        cell.content.text = aboutInfo[indexPath.row].content
+        cell.desc.text = aboutInfo[indexPath.row].desc
 
         return cell
     }
