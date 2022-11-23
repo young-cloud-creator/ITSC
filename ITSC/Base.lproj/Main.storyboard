@@ -92,24 +92,35 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fbw-qt-Q7L">
                                 <rect key="frame" x="0.0" y="92" width="414" height="721"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="标题" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vb7-wB-H6u" userLabel="Title">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="103"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <color key="textColor" systemColor="labelColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FCj-HG-miX">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="96"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="16" translatesAutoresizingMaskIntoConstraints="NO" id="19K-6J-ldb">
+                                        <rect key="frame" x="0.0" y="96" width="414" height="48"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="I31-2Y-pOh" userLabel="Content">
-                                        <rect key="frame" x="0.0" y="103" width="414" height="618"/>
+                                        <rect key="frame" x="0.0" y="144" width="414" height="577"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <color key="textColor" systemColor="labelColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="I31-2Y-pOh" firstAttribute="height" secondItem="vb7-wB-H6u" secondAttribute="height" multiplier="6" id="Oym-fh-TNS"/>
+                                    <constraint firstItem="FCj-HG-miX" firstAttribute="height" secondItem="19K-6J-ldb" secondAttribute="height" multiplier="2" id="6Aj-Ff-q3u"/>
+                                    <constraint firstItem="FCj-HG-miX" firstAttribute="top" secondItem="Fbw-qt-Q7L" secondAttribute="top" id="JL1-SO-Q5t"/>
+                                    <constraint firstItem="I31-2Y-pOh" firstAttribute="width" secondItem="Fbw-qt-Q7L" secondAttribute="width" id="YkU-W2-lM3"/>
+                                    <constraint firstItem="19K-6J-ldb" firstAttribute="bottom" secondItem="I31-2Y-pOh" secondAttribute="top" id="aoJ-dq-Jw4"/>
+                                    <constraint firstItem="I31-2Y-pOh" firstAttribute="bottom" secondItem="Fbw-qt-Q7L" secondAttribute="bottom" id="brj-Az-MEW"/>
+                                    <constraint firstItem="I31-2Y-pOh" firstAttribute="height" secondItem="Fbw-qt-Q7L" secondAttribute="height" multiplier="0.8" id="ocj-tp-I37"/>
+                                    <constraint firstItem="19K-6J-ldb" firstAttribute="top" secondItem="FCj-HG-miX" secondAttribute="bottom" id="ohh-Se-zkP"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -123,6 +134,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="igQ-sJ-1O3"/>
+                    <connections>
+                        <outlet property="contentText" destination="I31-2Y-pOh" id="Ui9-1f-T4s"/>
+                        <outlet property="dateLabel" destination="19K-6J-ldb" id="PTw-Wl-4JA"/>
+                        <outlet property="titleLabel" destination="FCj-HG-miX" id="2hR-ys-X1m"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RMC-TH-UKZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
