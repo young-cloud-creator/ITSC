@@ -23,11 +23,8 @@ class AboutTableViewCell: UITableViewCell {
         stack.addSubview(self.desc)
         
         self.title.translatesAutoresizingMaskIntoConstraints = false
-        self.title.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: CGFloat(0.25)).isActive = true
         self.content.translatesAutoresizingMaskIntoConstraints = false
-        self.content.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: CGFloat(0.25)).isActive = true
         self.desc.translatesAutoresizingMaskIntoConstraints = false
-        self.desc.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: CGFloat(0.25)).isActive = true
         
         self.title.topAnchor.constraint(equalTo: stack.topAnchor, constant: CGFloat(8)).isActive = true
         self.content.topAnchor.constraint(equalTo: self.title.bottomAnchor, constant: CGFloat(8)).isActive = true
@@ -50,6 +47,11 @@ class AboutTableViewCell: UITableViewCell {
         self.desc.textAlignment = NSTextAlignment.center
         
         self.contentView.addSubview(stack)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+        stack.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+        stack.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true
+        stack.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
