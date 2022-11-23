@@ -10,6 +10,7 @@ import UIKit
 class TableViewController: UITableViewController {
 
     var listData: [CellData] = [CellData]()
+    let baseURL = "https://itsc.nju.edu.cn"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +89,7 @@ class TableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         let contentViewController = segue.destination as! ContentViewController
         let cell = sender as! NewsTableViewCell
-        contentViewController.href = cell.href
+        contentViewController.href = self.baseURL+cell.href
     }
     
     func loadDataFromURL(baseURL: String) {

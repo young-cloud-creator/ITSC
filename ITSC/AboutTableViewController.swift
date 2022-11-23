@@ -136,6 +136,7 @@ class AboutTableViewController: UITableViewController {
     
     func loadList(list: String) throws {
         let htmlQuoteReg = try NSRegularExpression(pattern: "&quot;")
+        let htmlSpaceReg = try NSRegularExpression(pattern: "&nbsp;")
         let htmlAposReg = try NSRegularExpression(pattern: "&apos;")
         let itemReg = try NSRegularExpression(pattern: "<div class=\"news_box\"><div class=\"news_title\"><(.*?)>(.*?)<(.*?)></div><div class=\"news_fbt\">(.*?)</div><div class=\"news_text\">(.*?)</div></div>")
         let matches = itemReg.matches(in: list, range: NSRange(location: 0, length: list.count))
@@ -150,10 +151,13 @@ class AboutTableViewController: UITableViewController {
             
             title = htmlQuoteReg.stringByReplacingMatches(in: title, range: NSRange(location: 0, length: title.count), withTemplate: "\"")
             title = htmlAposReg.stringByReplacingMatches(in: title, range: NSRange(location: 0, length: title.count), withTemplate: "\'")
+            title = htmlSpaceReg.stringByReplacingMatches(in: title, range: NSRange(location: 0, length: title.count), withTemplate: " ")
             content = htmlQuoteReg.stringByReplacingMatches(in: content, range: NSRange(location: 0, length: content.count), withTemplate: "\"")
             content = htmlAposReg.stringByReplacingMatches(in: content, range: NSRange(location: 0, length: content.count), withTemplate: "\'")
+            content = htmlSpaceReg.stringByReplacingMatches(in: content, range: NSRange(location: 0, length: content.count), withTemplate: " ")
             desc = htmlQuoteReg.stringByReplacingMatches(in: desc, range: NSRange(location: 0, length: desc.count), withTemplate: "\"")
             desc = htmlAposReg.stringByReplacingMatches(in: desc, range: NSRange(location: 0, length: desc.count), withTemplate: "\'")
+            desc = htmlSpaceReg.stringByReplacingMatches(in: desc, range: NSRange(location: 0, length: desc.count), withTemplate: " ")
             
             aboutInfo.append(AboutCellData(title: title, content: content, desc: desc))
         }
