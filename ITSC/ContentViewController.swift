@@ -18,21 +18,30 @@ class ContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.titleLabel.text = "内容不知道跑哪里去了🥺"
+        self.titleLabel.text = "加载中..."
         self.loadPage()
     }
     
     func loadPage() {
-        if let url = URL(string: self.href) {
+        if self.href.contains("redirect") {
+            self.titleLabel.text = "页面似乎在尝试重定向，已停止继续加载"
+        }
+        else if let url = URL(string: self.href) {
             let task = URLSession.shared.dataTask(with: url, completionHandler: {
                 data, response, error in
                 if let error = error {
                     print("\(error.localizedDescription)")
+                    DispatchQueue.main.async {
+                        self.titleLabel.text = "内容不知道跑哪里去了🥺"
+                    }
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse,
                       (200...299).contains(httpResponse.statusCode) else {
                     print("server error")
+                    DispatchQueue.main.async {
+                        self.titleLabel.text = "内容不知道跑哪里去了🥺"
+                    }
                     return
                 }
                 if let mimeType = httpResponse.mimeType, mimeType == "text/html",
@@ -91,7 +100,41 @@ class ContentViewController: UIViewController {
     }
     
     func loadContent(content: String) throws {
-        
+        let paragraphReg = try NSRegularExpression(pattern: "<p(.*?)>(.*?)</p>")
+        let matches = paragraphReg.matches(in: content, range: NSRange(location: 0, length: content.count))
+        let mutableString = NSMutableAttributedString()
+        for p in matches {
+            let paraRange = p.range(at: 2)
+            mutableString.insert(try loadPara(paragraph: (content as NSString).substring(with: paraRange)), at: mutableString.length)
+            mutableString.insert(NSAttributedString(string: "\n\n"), at: mutableString.length)
+        }
+        self.contentText.attributedText = mutableString
+        self.contentText.font = UIFont(name: "System Font Regular", size: 18.0)
+    }
+    
+    func loadPara(paragraph para: String) throws -> NSMutableAttributedString {
+        let imgReg = try NSRegularExpression(pattern: "<img (.*?)src=[\"\'](.*?)[\"\']")
+        let matches = imgReg.matches(in: para, range: NSRange(location: 0, length: para.count))
+        let mutableString = NSMutableAttributedString()
+        if matches.isEmpty {
+            let tagReg = try NSRegularExpression(pattern: "<(.*?)>")
+            var noTag = tagReg.stringByReplacingMatches(in: para, range: NSRange(location: 0, length: para.count), withTemplate: "")
+            try processHtmlChar(string: &noTag)
+            mutableString.insert(NSAttributedString(string: noTag), at: mutableString.length)
+        }
+        else {
+            for img in matches {
+                let imgSrcRange = img.range(at: 2)
+                let imgSrc = "https:/itsc.nju.edu.cn"+(para as NSString).substring(with: imgSrcRange)
+                let data = try Data(contentsOf: URL(string: imgSrc)!)
+                let tmpImg = UIImage(data: data)
+                let img = UIImage(data: data, scale: 1.03*(Double((tmpImg?.size.width)!)/Double((self.contentText?.frame.width)!)))
+                let attachment = NSTextAttachment(image: img!)
+                let string = NSAttributedString(attachment: attachment)
+                mutableString.insert(string, at: mutableString.length)
+            }
+        }
+        return mutableString
     }
 
     /*

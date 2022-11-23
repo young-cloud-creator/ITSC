@@ -148,7 +148,7 @@ class TableViewController: UITableViewController {
             let white = try NSRegularExpression(pattern: "[\\v\\f\\t\\n\\r]")
             let noWhite = white.stringByReplacingMatches(in: html, range: NSRange(location: 0, length: html.count), withTemplate: "")
             
-            let listReg = try NSRegularExpression(pattern: "<ul class=\"news_list list2\">(.*?)</ul>")
+            let listReg = try NSRegularExpression(pattern: "<ul class=[\"\']news_list list2[\"\']>(.*?)</ul>")
             let matches = listReg.matches(in: noWhite, range: NSRange(location: 0, length: noWhite.count))
             
             for itemList in matches {
@@ -165,7 +165,7 @@ class TableViewController: UITableViewController {
     
     func loadList(li: String) {
         do {
-            let itemReg = try NSRegularExpression(pattern: "<span class=\"news_title\">(.*?)</span><span class=\"news_meta\">(.*?)</span>")
+            let itemReg = try NSRegularExpression(pattern: "<span class=[\"\']news_title[\"\']>(.*?)</span><span class=[\"\']news_meta[\"\']>(.*?)</span>")
             let matches = itemReg.matches(in: li, range: NSRange(location: 0, length: li.count))
             
             for item in matches {
@@ -190,7 +190,7 @@ class TableViewController: UITableViewController {
         let htmlSpaceReg = try NSRegularExpression(pattern: "&nbsp;")
         let htmlAposReg = try NSRegularExpression(pattern: "&apos;")
         
-        let captureReg = try NSRegularExpression(pattern: "<span class=\"news_title\"><a href='(.*?)' target='_blank' title='(.*?)'>(.*?)</a></span><span class=\"news_meta\">(.*?)</span>")
+        let captureReg = try NSRegularExpression(pattern: "<span class=[\"\']news_title[\"\']><a href=[\"\'](.*?)[\"\'] target=[\"\']_blank[\"\'] title=[\"\'](.*?)[\"\']>(.*?)</a></span><span class=[\"\']news_meta[\"\']>(.*?)</span>")
         let matches = captureReg.matches(in: item, range: NSRange(location: 0, length: item.count))
         let i = matches[0]
         let hrefRange = i.range(at: 1)
