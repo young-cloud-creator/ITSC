@@ -23,8 +23,11 @@ class ContentViewController: UIViewController {
     }
     
     func loadPage() {
-        if self.href.contains("redirect") {
+        if self.href.contains("redirect") || !self.href.contains("itsc.nju.edu.cn") {
             self.titleLabel.text = "页面似乎在尝试重定向，已停止继续加载"
+        }
+        else if !self.href.contains("https://") {
+            self.titleLabel.text = "使用了不安全的http协议，已停止继续加载"
         }
         else if let url = URL(string: self.href) {
             let task = URLSession.shared.dataTask(with: url, completionHandler: {
@@ -102,11 +105,11 @@ class ContentViewController: UIViewController {
     }
     
     func loadContent(content: String) throws {
-        let paragraphReg = try NSRegularExpression(pattern: "<((p>)|(section>)|(p (.*?)>)|(section (.*?)>))(.*?)</((p)|(section))>")
+        let paragraphReg = try NSRegularExpression(pattern: "<((p>)|(section>)|(td>)|(p (.*?)>)|(section (.*?)>)|(td (.*?)>))(.*?)</((p)|(section)|(td))>")
         let matches = paragraphReg.matches(in: content, range: NSRange(location: 0, length: content.count))
         let mutableString = NSMutableAttributedString()
         for p in matches {
-            let paraRange = p.range(at: 8)
+            let paraRange = p.range(at: 11)
             mutableString.insert(try loadPara(paragraph: (content as NSString).substring(with: paraRange)), at: mutableString.length)
             mutableString.insert(NSAttributedString(string: "\n\n"), at: mutableString.length)
         }

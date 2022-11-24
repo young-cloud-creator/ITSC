@@ -89,7 +89,12 @@ class TableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         let contentViewController = segue.destination as! ContentViewController
         let cell = sender as! NewsTableViewCell
-        contentViewController.href = self.baseURL+cell.href
+        if !cell.href.contains("http://") && !cell.href.contains("https://") {
+            contentViewController.href = self.baseURL+cell.href
+        }
+        else {
+            contentViewController.href = cell.href
+        }
     }
     
     func loadDataFromURL(baseURL: String) {
