@@ -61,12 +61,12 @@ class ContentViewController: UIViewController {
             let white = try NSRegularExpression(pattern: "[\\v\\f\\t\\n\\r]")
             let noWhite = white.stringByReplacingMatches(in: html, range: NSRange(location: 0, length: html.count), withTemplate: "")
             
-            let pageReg = try NSRegularExpression(pattern: "<h1 class=[\"\']arti_title[\"\']>(.*?)</h1>(.*?)<p class=[\"\']arti_metas[\"\']><span class=[\"\']arti_update[\"\']>(.*?)</span>(.*?)</p>(.*?)<div class=[\"\']entry[\"\']>(.*?)<div class=[\"\']read[\"\']><div class=[\"\']wp_articlecontent[\"\']>(.*?)</div>")
+            let pageReg = try NSRegularExpression(pattern: "<h1 class=[\"\']arti_title[\"\']>(.*?)</h1>(.*?)<p class=[\"\']arti_metas[\"\']><span class=[\"\']arti_update[\"\']>(.*?)</span>(.*?)</p>(.*?)<div class=[\"\']entry[\"\']>(.*?)<div class=[\"\']read[\"\']>(<div class=[\"\']wp_articlecontent[\"\']>)?(.*?)</div>")
             let matches = pageReg.matches(in: noWhite, range: NSRange(location: 0, length: noWhite.count))
             if !matches.isEmpty {
                 let titleRange = matches[0].range(at: 1)
                 let dateRange = matches[0].range(at: 3)
-                let contentRange = matches[0].range(at: 7)
+                let contentRange = matches[0].range(at: 8)
                 var title = (noWhite as NSString).substring(with: titleRange)
                 var date = (noWhite as NSString).substring(with: dateRange)
                 let content = (noWhite as NSString).substring(with: contentRange)
